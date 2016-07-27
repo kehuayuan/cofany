@@ -1,0 +1,82 @@
+body{
+	background: #f0f0f0;
+}
+a:hover{
+	color: #26c5b7;
+	text-decoration: none;
+}
+a{
+	color: #666;
+}
+.oms-logo{
+	width: 70px;
+	float: left;
+	background: #26c5b7;
+	padding: 10px;
+	text-align: center;
+}
+.oms-logo a{
+	text-align: center;
+}
+
+.oms-logo p{
+	background: #fff;
+	color: #26c5b7;
+	font-size: 10px;
+	text-align: center;
+	margin: 0;
+	margin-top:5px;
+}
+.navbox{
+	background: #fff;
+}
+.navshadow{
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+.form-research{
+	margin-top:7px;
+	margin-bottom: 7px;
+}
+.form-w{
+	width: 320px;
+	float: left;
+	margin-left:50px;
+}
+.navbox ul li{
+	display: inline-block;
+	margin: 7px 0 7px 40px;
+	text-align: center;
+	line-height: 34px;
+}
+.navbox ul li img{
+	line-height: 34px;
+}
+.navbox ul{
+	margin: 0;
+}
+
+.navbar{
+	border-radius: 0px;
+}
+.name-right{
+	float: right;
+}
+.name-right ul li{
+	margin: 0;
+}
+.name-right ul li a{
+	margin: 0;
+}
+.divider{
+	background: #ccc;
+}
+.oms-cd li a{
+	background-image: url(../imgaes/cd-icon.png);
+    display: inline-block;
+    font-size: 13px;
+    text-align: center;
+    width:100px;
+}
+.oms-cd li .qyk{
+	background-position: 10px 10px;
+}

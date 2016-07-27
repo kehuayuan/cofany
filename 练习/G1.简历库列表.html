@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>客户管理</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link type="image/x-icon" href="/static/images/favicon.ico" rel="shortcut icon">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/jquery.bootgrid.min.css" rel="stylesheet" />
+<link href="css/city-picker.css" rel="stylesheet" type="text/css" />
+<link href="css/main.css" rel="stylesheet" type="text/css">
+
+<!--[if lt IE 9]>
+  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style></style>
+<meta charset="UTF-8">
+</head>
+<body>
+<nav class="navbar oms-head navbar-dark navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="navbar-header  col-sm-3 col-md-2"> 
+         <a class="navbar-brand logo" href="/"><img src="images/yl-logo.png" width="32" height=""></a>
+         <p class="logo-name">优蓝OMS</p>
+      </div>
+      <div class="top-operate">
+        <ul class="clearfix">
+          <li>
+            <form class="top-search">
+              <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <a href="#" class="search-b" ><i class="glyphicon glyphicon-search"></i></a> </div>
+              <!-- /input-group -->
+            </form>
+          </li>
+          <li><a title="企业库" href=""><i class="glyphicon glyphicon-briefcase"></i><span>企业库</span></a></li>
+          <li><a title="简历库" href=""><i class="glyphicon glyphicon-inbox"></i><span>简历库</span></a></li>
+          <li><a title="提醒" href="H1.提醒列表.html"><i class="glyphicon glyphicon-bell"></i> <em class="num">1233</em><span>提醒</span></a></li>
+          <li><a href="#"  title="报表" ><i class="glyphicon glyphicon-signal"></i><span>报表</span></a></li>
+        </ul>
+      </div>
+      <div class="top-user navbar-right">
+        <div class="dropdown"> <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> admin <span class="caret"></span> </a>
+          <ul class="dropdown-menu" aria-labelledby="dLabel">
+            <li><a href="#">个人资料</a></li>
+            <li><a href="#">修改密码</a></li>
+            <li><a href="#">拨打记录</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">退出</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid oms-contain">
+  <div class="row"> 
+    <!--左侧-->
+    <div class=" sidebar">
+      <div class="sidebar-contain">
+        <ul class="clearfix">
+          <li><a class="icon-yibiao" href="#"   title="仪表盘">仪表盘</a></li>
+          <li class="slidebar-tit">我的客户</li>
+          <li><a class="icon-resources" href="#" title="潜在">潜在</a></li>
+          <li><a class="icon-job" href="#" title="意向">意向</a></li>
+          <li class="active"><a class="icon-client" href="#"  title="合作">合作</a></li>
+          <li class="slidebar-tit" style="height:5px;"></li>
+          <li><a class="icon-team" href="#"  title="订单">订单</a></li>
+          <li><a class="icon-resources" href="#"  title="项目">项目</a></li>
+          <li><a class="icon-sign" href="#"  title="报名">报名</a></li>
+          <li class="last"><a class="icon-set" id="set" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 系统</a>
+            <ul class="dropdown-menu"  aria-labelledby="set">
+              <li><a href="#">系统管理</a></li>
+              <li><a href="#">队列管理</a></li>
+              <li><a href="#">短信平台</a></li>
+              <li><a href="#">CTI配置</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-right main">
+      <div class="top-link"> 
+        <span class="c999 p10 block">搜索到123条和"XXXX"有关的企业</span>
+      </div>
+      <div class="main-box clearfix">          
+         <div class="search-table" >
+           <div class="pull-left">
+               <div class="drop-box mr10">
+                <button type="button" class="btn btn-default drop-m">查询</button>
+                <div class="drop-main drop-left">
+                   <div class="search-box">
+              <div class="filter-each"> <span class="search-lt">城市：</span>
+                <div class="search-rt">
+                  <div id="distpicker">
+                    <div style="position: relative; width:300px;">
+                      <input id="city-picker3" class="form-control" readonly type="text" value="" placeholder="请选择..." data-toggle="city-picker">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="filter-each"> <span class="search-lt">需求人数：</span>
+                <div class="search-rt">
+                  <ul class="clearfix">
+                    <li class="active"><a href="#">0-10人</a></li>
+                    <li><a href="#">10-50人</a></li>
+                    <li><a href="#">50-100人</a></li>
+                    <li><a href="#">100-500人</a></li>
+                    <li><a href="#">>500人</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="filter-each"> <span class="search-lt">合作状态：</span>
+                <div class="search-rt">
+                  <ul class="clearfix">
+                    <li class="active"><a href="#">0-25%</a></li>
+                    <li><a href="#">25%-50%</a></li>
+                    <li><a href="#">50%-75%</a></li>
+                    <li><a href="#">75%-100%</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success">保存</button>
+                      <button type="button" class="btn btn-default drop-close">取消</button>
+                    </div>
+                  </div>  
+              </div>
+             </div>
+            <div class="pull-left ml10 mt10">
+              <span>已选查询条件：</span>
+              <span>无</span>
+              <span class="label label-info">aaa</span>
+              <span class="label label-info">aaa</span>
+              <span class="label label-info">aaa</span>
+             </div> 
+           </div>            
+         <div class="table-responsive">
+              <table id="grid" class="table table-condensed table-hover table-striped">
+                <col width="130">
+                <col width="">
+                <col width="80">
+                <col width="90">
+                <col width="80">
+                <col width="120">
+                <col width="100">
+                <col width="120">
+                <col width="110">
+                <col width="110">
+                <col width="80">
+                <thead>
+                  <tr>
+                    <th data-column-id="a" data-order="asc" >简历ID</th>
+                    <th data-column-id="link" data-sortable="false">姓名</th>
+                    <th data-column-id="c" data-formatter="">手机</th>
+                    <th data-column-id="d" data-formatter="">性别</th>
+                    <th data-column-id="e" data-formatter="">年龄</th>
+                    <th data-column-id="e" data-formatter="">居住城市</th>
+                    <th data-column-id="e" data-formatter="">在离职情况</th>
+                    <th data-column-id="f" data-formatter="">学历</th>
+                    <th data-column-id="g" data-formatter="">简历来源</th>
+                    <th data-column-id="h" data-formatter="">端口</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>RS-281992</td>
+                    <td>张三丰</td>
+                    <td>18121066551</td>
+                    <td>男</td>
+                    <td>25</td>
+                    <td>上海</td>
+                    <td>在职</td>
+                    <td>初中</td>
+                    <td>优蓝网</td>
+                    <td>TSS</td>
+                  </tr>
+                 
+                </tbody>
+            </table>
+             
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">查询</h4>
+      </div>
+      <div class="modal-body">
+       <style>
+        .search-box .city-picker-dropdown,.search-box .city-picker-span{ width:350px !important;}
+       </style>
+        <div class="search-box">
+              <div class="filter-each">
+                  <span class="search-lt">地区：</span>
+                  <div class="search-rt">
+                    <div id="distpicker">
+                        <div style="position: relative; width:300px;">
+                            <input id="city-picker3" class="form-control" readonly type="text" value="" placeholder="请选择..." data-toggle="city-picker">
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              <div class="filter-each"> <span class="search-lt">合作状态：</span>
+                <div class="search-rt">
+                  <ul class="clearfix">
+                    <li class="active"><a href="#">全部</a></li>
+                    <li><a href="#">销售跟进</a></li>
+                    <li><a href="#">立项中</a></li>
+                    <li><a href="#">项目执行中</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+      </div>
+	<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/jquery-1.11.1.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.bootgrid.min.js"></script>
+<script src="js/city-picker.data.js"></script>
+<script src="js/city-picker.js"></script>
+<script type="text/javascript" src="js/common.js" ></script>
+<script>
+        $(function ()
+        {
+            var data = [];
+
+            var grid = $("#grid").bootgrid({
+                pagination: 3,
+                selection: true,
+                multiSelect: true,
+                formatters: {
+                    "quantity": function (column, row)
+                    {
+                        return "<input id=\"" + row.id + "-quantity\" type=\"text\" class=\"quantity\" value=\"" + row.quantity + "\" />";
+                    }
+                }
+            }).on("loaded.rs.jquery.bootgrid", function (e)
+            {
+                // Resets the selected data array on reload, searching, sorting or changing page
+                data = [];
+
+                grid.on("keyup", "input.quantity", function ()
+                {
+                    e.stopPropagation();
+
+                    // Array.first is an extension of bootgrid
+                    var $this = $(this),
+                        rowId = +$this.attr("id").split("-")[0], // "+" to convert the a string to an integer
+                        item = data.first(function (item) { return item.id === rowId; });
+                    if (item != null)
+                    {
+                        item.quantity = $this.val();
+                    }
+                });
+            }).on("selected.rs.jquery.bootgrid", function (e, selectedRows)
+            {
+                var row, quantity;
+                for (var i = 0; i < selectedRows.length; i++)
+                {
+                    row = selectedRows[i];
+
+                    // Array.contains is an extension of bootgrid
+                    if (!data.contains(function (item) { return item.id === row.id; }))
+                    {
+                        quantity = grid.find("#" + row.id + "-quantity").val();
+                        data.push({ id: row.id, quantity: quantity || 0 });
+                    }
+                }
+            }).on("deselected.rs.jquery.bootgrid", function (e, deselectedRows)
+            {
+                var row;
+                for (var i = 0; i < deselectedRows.length; i++)
+                {
+                    row = deselectedRows[i];
+                    for (var j = 0; j < data.length; j++)
+                    {
+                        if (data[j].id === row.id)
+                        {
+                            data.splice(j, 1);
+                            return;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
