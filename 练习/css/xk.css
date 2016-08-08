@@ -6,6 +6,7 @@ a:hover{
 	text-decoration: none;
 }
 a{
+	outline: none;
 	color: #666;
 }
 .oms-logo{
@@ -44,7 +45,7 @@ a{
 }
 .oms-cd li{
 	display: inline-block;
-	margin: 7px 0 7px 40px;
+	margin: 7px 0 7px 30px;
 	text-align: center;
 	line-height: 34px;
 }
@@ -71,17 +72,45 @@ a{
 	background: #ccc;
 }
 .oms-cd li a{
-	background-image: url(../images/cd-icon.png);
-    display: inline-block;
-    background-repeat: no-repeat;
     font-size: 13px;
     text-align: center;
     margin-left: 5px;
-   /* width:80px;*/
+    width:80px;
 }
-.oms-cd li .qyk{
-	background-position: 0px 10px;
+ul li{
+list-style: none;
 }
-.oms-cd li a:hover{
-	background-image: url(../images/cd-icon-hover.png);
+.sidebar{
+	margin-bottom: 0px;
+	width: 71px;
+	height: 100%;
+	background: #26c5b7;
+	position: fixed;
+	left: 0;
+	top: 0;
 }
+.sidebar ul {
+	padding-left: 0px;
+}
+.col-md-offset-1{
+	margin-left: 3%;
+}
+.sidebar ul li>a{
+	color: #fff;
+	font-size: 10px;
+	display: inline-block;
+	margin:10px;  
+}
+.cd-last{
+	position: fixed;
+	bottom: 0;
+}
+.cd-hover{
+	background: #26aca0;
+}
+
+
+
+
+
+
