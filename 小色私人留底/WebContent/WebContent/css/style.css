@@ -1,0 +1,137 @@
+@CHARSET "UTF-8";
+
+
+
+.width100{
+	width:100%;
+}
+
+.width95{
+	width:95%;
+}
+
+.width80{
+	width:80%;
+}
+
+.width50{
+	width:50%;
+}
+
+.width25{
+	width:25%;
+}
+
+.width20{
+	width:20%;
+}
+
+.width30{
+	width:30%;
+}
+
+.margin_top20{
+	margin-top:20px;
+}
+
+.ul_no{
+	list-style-type:none;	
+}
+
+
+.text-24 {
+  font-size: 24px;
+}
+
+.text-20 {
+  font-size: 20px;
+}
+
+.text-18 {
+  font-size: 18px;
+}
+
+.text-17 {
+  font-size: 17px;
+}
+
+.text-16 {
+  font-size: 16px;
+}
+
+.text-15 {
+  font-size: 15px;
+}
+
+.text-14 {
+  font-size: 14px;
+}
+
+.text-13 {
+  font-size: 13px;
+}
+
+.text-12 {
+  font-size: 12px;
+}
+
+.text-10 {
+  font-size: 10px;
+}
+
+.text-25 {
+  font-size: 25px;
+}
+
+.text-30 {
+  font-size: 30px;
+}
+
+.text-wrap {
+  white-space: normal;
+}
+
+
+
+.filedisplay{
+	display:none;
+}
+
+
+
+.display_none{
+	display:none;
+}
+
+
+#loading{  
+    width:160px;  
+    height:56px;  
+    position: absolute;  
+    top:50%;  
+    left:50%;  
+    line-height:56px;  
+    color:#fff;  
+    padding-left:60px;  
+    font-size:15px;  
+    background: #000 url(../imgs/lodaling.gif) no-repeat 10px 50%;  
+    opacity: 0.7;  
+    z-index:9999;  
+    -moz-border-radius:20px;  
+    -webkit-border-radius:20px;  
+    border-radius:20px;  
+}
+
+#loading-mask{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        z-index:9990;
+        background-color:#000000;
+        opacity:0.5;
+        -moz-opacity:0.5;
+        filter:alpha(opacity=50);
+    }
+

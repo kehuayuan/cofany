@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	
+	<!-- 权限拦截器 
+	<filter>
+		<filter-name>permissionFilter</filter-name>
+		<filter-class>com.ncit.weixin.filter.PermissionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>permissionFilter</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+	-->
+	
+	<filter>
+		<filter-name>jfinal</filter-name>
+		<filter-class>com.jfinal.core.JFinalFilter</filter-class>
+		<init-param>
+			<param-name>configClass</param-name>
+			<param-value>com.ncit.weixin.WeixinConfig</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>login</filter-name>
+		<filter-class>com.ncit.weixin.filter.LoginFilter</filter-class>
+		<init-param>
+			<param-name>form-login-processing-url</param-name>
+			<param-value>/form_security_check</param-value>
+		</init-param>
+		<init-param>
+			<param-name>form-logout-processing-url</param-name>
+			<param-value>/form_security_logout</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/wx_msg.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/index_1.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/typography.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/calendar.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/form_security_check</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/form_security_logout</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>jfinal</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- <filter-mapping> <filter-name>jfinal</filter-name> <url-pattern>/weixin/*</url-pattern> 
+		</filter-mapping> <filter-mapping> <filter-name>jfinal</filter-name> <url-pattern>/message/*</url-pattern> 
+		</filter-mapping> <filter-mapping> <filter-name>jfinal</filter-name> <url-pattern>/api/*</url-pattern> 
+		</filter-mapping> -->
+</web-app>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>IVR查询</title>
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.4/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.4/themes/icon.css">
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.4/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
+		<%-- <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" />
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script> --%>
+		<style type="text/css">
+			body {
+			    font-family:verdana,helvetica,arial,sans-serif;
+			    padding:5px;
+			    font-size:12px;
+			    margin:0;
+			}
+		</style>
+	</head>
+	<body>
+	
+		<form id="form" method="post">
+			<table cellpadding="5">
+				<tr>
+					<td><label>开始时间:</label></td>
+					<td><input id="startTimeId" name="startTime" class="easyui-datetimebox" style="width:150px;" /></td>
+					<td><label>结束时间:</label></td>
+					<td><input id="endTimeId" name="endTime" class="easyui-datetimebox" style="width:150px;" /></td>
+					<td>
+						<a href="javascript:query();" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+					</td>
+					<td>
+						<a href="javascript:exportData();" class="easyui-linkbutton" data-options="iconCls:'icon-print'">Excel</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+		<div id="tt" class="easyui-tabs">
+			<div title="数据报表">
+				<table id="tableId" class="easyui-datagrid">
+				</table>
+			</div>
+			<div title="图形报表" data-options="closable:true,tools:'#p-tools'">
+				<div id="barArea" style="padding-left:50px;">
+				</div>
+			</div>
+		</div>
+		<div id="p-tools">
+			<a href="javascript:void(0)" class="icon-mini-refresh" id="refreshBarId"></a>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				
+				$('#tt').tabs({
+				    border:false,
+				    onSelect:function(title){
+				    	/* if("图形报表"==title){
+				    		$("#barArea").html("<canvas id='barId' width='600px' height='500px'></canvas>");
+				    		var barChat = $("#barId").get(0).getContext("2d");
+							var data = {
+								labels : ["进入排队电话数","呼入通话时长(单位为秒)","排队接通率","呼入排队放弃率","通话数","进入IVR电话数","外呼通话时长(单位为秒)","放弃电话数","外呼失败数","排队放弃时长","呼入电话数","呼出电话数","总通话时长(包含呼入和呼出，单位为秒)","呼入平均通话时长"],
+								datasets : [{
+										fillColor : "rgba(151,187,205,0.5)",
+										strokeColor : "rgba(151,187,205,1)",
+										data : [0,48,40,19,96,27,100]
+									}
+								]
+							};
+				    		new Chart(barChat).Bar(data,{scaleFontStyle:"blod",scaleFontColor:"#f00",scaleFontSize:22});
+				    	} */
+				    }
+				});
+				
+				$("#refreshBarId").click(function(){
+					
+					var startTime = $("#startTimeId").datetimebox("getValue");
+					var endTime = $("#endTimeId").datetimebox("getValue");
+					if($.trim(startTime)==""){
+						alert("请选择开始时间");
+						return;
+					}
+					if($.trim(endTime)==""){
+						alert("请选择结束时间");
+						return;
+					}
+					
+					var arr = [];
+					$.ajax({
+						async : false,
+						url : "${pageContext.request.contextPath}/statistical/getBarData",
+						data : {startTime:$("#startTimeId").datetimebox("getValue"),endTime:$("#endTimeId").datetimebox("getValue")},
+						type : "post",
+						dataType : "json",
+						success : function(data){
+							arr.push(data['queuenum']);
+							arr.push(data['talktime_sec']);
+							arr.push(data['talkrate']);
+							arr.push(data['abandonrate']);
+							arr.push(data['talknum']);
+							arr.push(data['callivrnum']);
+							arr.push(data['talkouttime_sec']);
+							arr.push(data['abandonnum']);
+							arr.push(data['calloutFailnum']);
+							arr.push(data['avgabandontime_sec']);
+							arr.push(data['callinnum']);
+							arr.push(data['calloutnum']);
+							arr.push(data['calltime_sec']);
+							arr.push(data['avgtalktime_sec']);
+						},
+						error : function(){
+							window.location.href = "${pageContext.request.contextPath}/";
+						}
+					});
+					$("#barArea").html("<canvas id='barId' width='600px' height='500px'></canvas>");
+		    		var barChat = $("#barId").get(0).getContext("2d");
+					var data = {
+						labels : ["进入排队电话数","呼入通话时长(单位为秒)","排队接通率","呼入排队放弃率","通话数","进入IVR电话数","外呼通话时长(单位为秒)","放弃电话数","外呼失败数","排队放弃时长","呼入电话数","呼出电话数","总通话时长(包含呼入和呼出，单位为秒)","呼入平均通话时长"],
+						datasets : [{
+								fillColor : "rgba(151,187,205,0.5)",
+								strokeColor : "rgba(151,187,205,1)",
+								data : arr
+							}
+						]
+					};
+		    		new Chart(barChat).Bar(data,{scaleFontStyle:"blod",scaleFontColor:"#f00",scaleFontSize:22});
+				});
+				
+				$("#startTimeId").datetimebox({"editable":false});
+				$("#endTimeId").datetimebox({"editable":false});
+				
+				$('#tableId').datagrid({
+				    url:'${pageContext.request.contextPath}/statistical/callVolumeData',
+				    rownumbers : true,
+				    animate: true,
+				    pagination : true,
+				    singleSelect: true,
+				    columns:[[
+						{field:'calltime',title:'时间'},
+				        {field:'queuenum',title:'进入排队电话数'},
+				        {field:'talktime_sec',title:'呼入通话时长(单位为秒)'},
+				        {field:'talkrate',title:'排队接通率'},
+				        {field:'abandonrate',title:'呼入排队放弃率'},
+				        {field:'talknum',title:'通话数'},
+				        {field:'callivrnum',title:'进入IVR电话数'},
+				        {field:'talkouttime',title:'外呼通话时长'},
+				        {field:'talkouttime_sec',title:'外呼通话时长(单位为秒)'},
+				        {field:'abandonnum',title:'放弃电话数'},
+				        {field:'calloutFailnum',title:'外呼失败数'},
+				        {field:'avgabandontime_sec',title:'排队放弃时长'},
+				        {field:'callinnum',title:'呼入电话数'},
+				        {field:'calloutnum',title:'呼出电话数'},
+				        {field:'calltime_sec',title:'总通话时长(包含呼入和呼出，单位为秒)'},
+				        {field:'avgtalktime_sec',title:'呼入平均通话时长'}
+				    ]]
+				});
+				
+			});
+			
+			function query(){
+				var startTime = $("#startTimeId").datetimebox("getValue");
+				var endTime = $("#endTimeId").datetimebox("getValue");
+				if($.trim(startTime)==""){
+					alert("请选择开始时间");
+					return;
+				}
+				if($.trim(endTime)==""){
+					alert("请选择结束时间");
+					return;
+				}
+				$("#tableId").datagrid("load",{startTime:startTime,endTime:endTime});
+			}
+		
+			function exportData(){
+				var startTime = $("#startTimeId").datetimebox("getValue");
+				var endTime = $("#endTimeId").datetimebox("getValue");
+				if($.trim(startTime)==""){
+					alert("请选择开始时间");
+					return;
+				}
+				if($.trim(endTime)==""){
+					alert("请选择结束时间");
+					return;
+				}
+				window.location.href = "${pageContext.request.contextPath}/statistical/exportExcelData?startTime="+startTime+"&endTime="+endTime;
+			}
+			
+		</script>
+	</body>
+</html>

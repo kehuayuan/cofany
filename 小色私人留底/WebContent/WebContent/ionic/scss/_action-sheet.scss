@@ -1,0 +1,169 @@
+/**
+ * Action Sheets
+ * --------------------------------------------------
+ */
+
+.action-sheet-backdrop {
+  @include transition(background-color 150ms ease-in-out);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-index-action-sheet;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0);
+
+  &.active {
+    background-color: rgba(0,0,0,0.4);
+  }
+}
+
+.action-sheet-wrapper {
+  @include translate3d(0, 100%, 0);
+  @include transition(all cubic-bezier(.36, .66, .04, 1) 500ms);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.action-sheet-up {
+  @include translate3d(0, 0, 0);
+}
+
+.action-sheet {
+  margin-left: $sheet-margin;
+  margin-right: $sheet-margin;
+  z-index: $z-index-action-sheet;
+  overflow: hidden;
+
+  .button {
+    display: inline-block;
+    width: 25%;
+    background: #fff;
+
+    &.destructive {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 16px;
+      width: 100%;
+      line-height: 140%;
+      color: #999;
+      font-size: 12px;
+      text-align: left;
+      border-top: 1px solid #ddd;
+      &:hover {
+        color: #666;
+      }
+    }
+
+      .top-icon {
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+        line-height: 48px;
+        font-size: 30px;
+        border-radius: 50%;
+        }
+
+      .bottom-text {
+        color: #999;
+        text-align: center;
+        font-size: 12px;
+      }
+  }
+
+  .button.active, .button.activated {
+    box-shadow: none;
+    border-color: $sheet-options-border-color;
+    color: $sheet-options-text-color;
+    background: $sheet-options-bg-active-color;
+  }
+}
+
+.action-sheet-title {
+  padding: $sheet-margin * 2;
+  margin-bottom: $sheet-margin;
+  color: #333;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.action-sheet-group {
+  /* margin-bottom: $sheet-margin; */
+  margin: 0 auto $sheet-margin;
+  text-align: center;
+  border-radius: $sheet-border-radius;
+  background-color: #fff;
+  overflow: hidden;
+
+  .button {
+    border-width: 0;
+  }
+  .button:first-child:last-child {
+    border-width: 0;
+  }
+}
+
+.action-sheet-options {
+  background: $light;
+}
+
+.action-sheet-cancel {
+  .button {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.action-sheet-open {
+  pointer-events: none;
+
+  &.modal-open .modal {
+    pointer-events: none;
+  }
+
+  .action-sheet-backdrop {
+    pointer-events: auto;
+  }
+}
+
+
+.platform-android {
+
+  .action-sheet-backdrop.active {
+    background-color: rgba(0,0,0,0.2);
+  }
+
+  .action-sheet {
+    margin: 0;
+
+    .action-sheet-title,
+    .button {
+      color: inherit;
+    }
+
+    .action-sheet-title {
+      font-size: 14px;
+      padding: 16px;
+      color: #666;
+    }
+
+    .button.active,
+    .button.activated {
+      background: #e8e8e8;
+    }
+
+  }
+
+  .action-sheet-group {
+    margin: 0;
+    border-radius: 0;
+    background-color: #fff;
+  }
+
+}

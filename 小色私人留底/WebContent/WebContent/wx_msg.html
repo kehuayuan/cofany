@@ -1,0 +1,578 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>wx_msg</title>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="jQuery-File-Upload-8.8.5/css/jquery.fileupload-ui.css">
+
+<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+
+<script src="jQuery-File-Upload-8.8.5/js/vendor/jquery.ui.widget.js"></script>
+<script src="jQuery-File-Upload-8.8.5/js/jquery.iframe-transport.js"></script>
+<script src="jQuery-File-Upload-8.8.5/js/jquery.fileupload.js"></script>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="ionic/css/ionic.css" />
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<style>
+
+.has_msg{
+	color:red;
+}
+.left{
+	float:left;
+}
+.right{
+	padding-left:30em; 
+}
+.right img{
+	width:60%;
+	max-width: 10em;
+}
+
+.border_no{
+	border:none;
+}
+
+
+.file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+
+#user_list{
+	max-height: 30em;
+	overflow-y:scroll;
+	overflow-x: hidden;
+}
+
+#msg_boxs .msgs{
+	max-height: 30em;
+	height:30em;
+	list-style-type:none;
+	overflow-y:scroll;
+	overflow-x: hidden;
+	background-color:#FFFFFF;
+	border:1px solid #F5F5F5;
+}
+
+#msg_boxs .msg_right{
+	text-align: right;
+}
+</style>
+
+</head>
+<body >
+<div style="display:none;">
+	<li class="msg_box" id="msg_box_tpl">
+		<ul class="ul_no">
+			<li>
+				<a class="prev btn btn-success width100" >上一页</a>
+			
+			</li>
+		</ul>
+		<ul class="msgs"></ul>
+		<form>
+			<div class="row">
+				<div class="col">
+					<span id="filesendtext"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-50 " style="padding-left:20px;">
+					<input type="text" name="txtMsg" class="width95 form-control inputt">
+				</div>
+				<div class="col-50" style="padding-left:20px;">
+					<a class="ion-image fileinput-button text-25 file" >
+					    <input type="file" mediaType="0" name="file1"  id="sendimg"/>
+					</a>
+					&nbsp;
+					<a class="ion-mic-a fileinput-button text-25 file" >
+					    <input type="file" mediaType="1" name="file2" id="sendvoice"  />
+					</a>
+					&nbsp;
+					<a class="ion-ios-eye fileinput-button text-25 file" >
+					    <input type="file" mediaType="2" name="file3"  id="sendvideo" />
+					</a>
+					&nbsp;
+					<button class="send_txt send_media btn btn-success " type="button" style="margin-top:-28px;">
+						 发送
+					</button>
+					
+					<button class="turn btn btn-info" type="button" style="margin-top:-28px;">
+						转接
+					</button>
+					
+					<button class="eval btn btn-warning" type="button" style="margin-top:-28px;">
+						评价
+					</button>
+					
+					<button class="end btn btn-danger" type="button" style="margin-top:-28px;">
+						结束
+					</button>
+					
+					
+				</div>
+			</div>
+			<!-- 
+			
+			<div id="progress" class="progress">
+				<div class="progress-bar progress-bar-success"></div>
+			</div>
+			 -->
+		</form>
+	</li>
+	
+	 <div id="video_tpl" class="playScreen">
+	 	
+            <video >
+                <source  type="video/mp4">
+            </video>
+        </div>
+        
+        <div id="voice_tpl" class="playScreen" style="padding:2em">
+           <a class=" play_voice btn btn-success ">
+				 <span>播放语音</span>
+				 <audio >
+			</a>
+        </div>
+</div>
+
+<div class="left width20" >
+	<div class="navbar navbar-default text-center" style="background:#438eb9;margin-bottom:0px;">
+		<h4 style="color:white;padding-top:5px;">我的咨询</h4>
+	</div>
+	<div id="user_list" class="nav nav-list">
+	
+	</div>
+</div>
+<div class="right">
+	<ul id="msg_boxs" class="ul_no">
+		
+	</ul>
+</div>
+
+<script type="text/javascript">
+	
+
+
+	var _contextPath = '<%=request.getContextPath()%>';
+
+	
+	$(document).ready(function(){
+	
+		
+		$(document).on('click',function(e){
+			
+			
+			var play_voice = e.getTarget('.play_voice');
+			if(play_voice){
+				
+				audio = play_voice.find('audio')[0];
+				
+				if(audio.pause){
+					audio.play();
+				}else{
+					audio.play();
+				}
+				return ;
+			}
+			var video = e.getTarget('video');
+			if(video){
+				video = video[0];
+				if(video.play){
+					video.play();
+				}else{
+					video.play();
+				}
+				return ;
+			}
+		});
+		
+		$.Event.prototype.getTarget = function(selector) {
+			var obj = $(this.target).closest(selector);
+			return obj[0] ? obj : null;
+		};
+		
+		var f_msg = {
+			user_list : $('#user_list'),
+			msg_boxs : $('#msg_boxs'),
+			listMsgUrl : _contextPath+'/message/listMsg',		//加载最新消息的接口
+			listUserMsg : _contextPath+'/message/listUserMsg',		//加载指定用户消息的接口
+			sendTxtMsgUrl : _contextPath+'/message/sendTxtMsg',		//发送文本消息接口
+			sendImgMsgUrl : _contextPath+'/message/sendMediaMsg',		//发送sendMediaMsg消息接口
+			updateMessage:_contextPath + '/message/updateMessageStatus',//更改消息已读未读状态
+			endMessage:_contextPath + '/message/endMessage',
+			turnMessage:_contextPath + '/message/turnMessage',
+			evalMessage:_contextPath + '/message/evalMessage',
+			init : function(){
+				var me = this;
+				 
+				
+				me.user_list.on('click' , function(e){
+					
+					var item = e.getTarget('ion-item');
+					if(item){
+						var openid = item.data('openid');
+						item.removeClass('has_msg');
+						//获取该用户的聊天窗口
+						var msgBox = me.getUserMsgBox(openid);
+						if(me.userMsgBox){
+							//隐藏旧的聊天窗口
+							me.userMsgBox.hide();
+						}
+						me.userMsgBox = msgBox;
+						me.userMsgBox.show();
+						$.ajax({
+							url : me.updateMessage+'?openid='+openid,
+							data : '',
+							success:function(data, textStatus, jqXHR){
+							},
+							error:function(data, t, tt){
+								//alert(data.responseText||tt);
+							}
+						});
+					}
+					
+				});
+				
+				me.msg_boxs.on('click' , function(e){
+						
+					var msgBox = e.getTarget('.msg_box');
+					var openid = msgBox.data('openid');
+					var send_media = e.getTarget('.send_media');
+					if(send_media){
+						//发送图片
+						var fileupload_data1 = send_media.closest('div').find('input[name=file1]').data('fileupload_data');
+						var fileupload_data2 = send_media.closest('div').find('input[name=file2]').data('fileupload_data');
+						var fileupload_data3 = send_media.closest('div').find('input[name=file3]').data('fileupload_data');
+						if(fileupload_data1){
+							fileupload_data1.submit();
+						}
+						else if(fileupload_data2){
+							fileupload_data2.submit();
+						}
+						else if(fileupload_data3){
+							fileupload_data3.submit();
+						}
+					}
+					var send_txt = e.getTarget('.send_txt');
+					if(send_txt ){
+						//发送文本
+						keyCode = 0;
+						var textArea = msgBox.find('[name=txtMsg]')
+						if(textArea.val()){
+							var text = textArea.val();
+							textArea.val('');
+							$.ajax({
+								url : me.sendTxtMsgUrl+'?touseropenid='+openid,
+								data : 'txt='+ encodeURI(text),
+								success:function(data, textStatus, jqXHR){
+									text = '';
+								},
+								error:function(data, t, tt){
+									//alert(data.responseText);
+								}
+							});
+						}else{
+							
+						}
+					}
+					var end = e.getTarget('.end');
+					if(end){
+						var msgBox = me.getUserMsgBox(openid);
+						msgBox.remove();
+						$('#'+openid+'_ut').remove();
+						$.ajax({
+							url : me.endMessage+'?openid='+openid,
+							data : '',
+							success:function(data, textStatus, jqXHR){
+							},
+							error:function(data, t, tt){
+							}
+						});
+					}
+					
+					var eval = e.getTarget('.eval');
+					if(eval){
+						var msgBox = me.getUserMsgBox(openid);
+						$.ajax({
+							url : me.evalMessage+'?openid='+openid,
+							data : '',
+							success:function(data, textStatus, jqXHR){
+							},
+							error:function(data, t, tt){
+							}
+						});
+					}
+					
+					
+					var turn = e.getTarget('.turn');
+					if(turn){
+						var msgBox = me.getUserMsgBox(openid);
+						
+						$.ajax({
+							url : me.turnMessage+'?openid='+openid,
+							dataType:'text',
+							success:function(data){
+								alert(data);
+								if(data != "暂无客服可分配"){
+									msgBox.remove();
+									$('#'+openid+'_ut').remove();
+								}
+								
+							},
+							error:function(data){
+							}
+						});
+					}
+					
+					
+					
+					var prev = e.getTarget('.prev');
+					if(prev){
+						//加载当前聊天的上一页数据。
+						//先获取当前已加载的聊天数据
+						
+						var msg_time = msgBox.find('.msg:first').data('msg_time');
+						if(me.loading){
+							return ;
+						}
+						$.ajax({
+							url : me.listUserMsg+'?openid='+openid,
+							data : 'msgtime='+ (msg_time||''),
+							success:function(data, textStatus, jqXHR){
+								var result = jqXHR.responseText;
+								try{
+									var obj = $.parseJSON(result);
+									me.addListMsgResult(obj,true,false);
+								}finally{
+									me.loading = false;
+								}
+							},
+							error:function(data, t, tt){
+								me.loading = false;
+								//alert(data.responseText||tt);
+							}
+						});
+					}
+				});
+				
+			},
+			getUserMsgBox : function(openid){
+				var me = this;
+				var userMsgBox = $('#'+openid+'_mb');
+				if(!userMsgBox.length){
+					//该用户还未创建会话，创建
+					
+					userMsgBox = $('#msg_box_tpl').clone(true).appendTo(me.msg_boxs);
+					userMsgBox.attr('id',openid+'_mb');
+					userMsgBox.data('openid',openid);
+					
+					//创建文件上传input
+					var fileupload = userMsgBox.find('input[type=file]');
+					fileupload.each(function(i,d){
+						d = $(d);
+						d.fileupload({
+					        url: me.sendImgMsgUrl+'?touseropenid='+openid+'&mediaType='+d.attr('mediaType'),
+					        dataType: 'text',
+					        autoUpload: false,
+					        success:function(data, textStatus, jqXHR){
+					        	console.log(data);
+					        	if(data != '' ){
+					        		alert(data);
+					        	}
+					        },
+					        error:function(data, textStatus, jqXHR){
+					        	
+					        },
+					        progressall: function (e, data) {
+					            var progress = parseInt(data.loaded / data.total * 100, 10);
+					            userMsgBox.find('#progress .progress-bar').css(
+					                'width',
+					                progress + '%'
+					            );
+					        }
+					    }).on('fileuploadadd', function (e, data) {
+					    	e.getTarget('input').data('fileupload_data',data);
+					    }).on('fileuploaddone', function (e, data) {
+					    	e.getTarget('input').data('fileupload_data',null);
+					    	
+					    }).prop('disabled', !$.support.fileInput)
+					    .parent().addClass($.support.fileInput ? undefined : 'disabled');
+					});
+					
+					
+					userMsgBox.hide();
+				}
+				return userMsgBox;
+			},
+			start:function(){
+				var me = this;
+				this.task = setInterval(function(){
+					me.listMsg();
+				},1000);
+				me.listMsg();
+			},
+			listMsg : function(){
+				if(this.loading){
+					return ;
+				}
+				var me = this;
+				me.loading = true;
+				
+				//使用ajax向后台请求数据
+				$.ajax({
+					url : this.listMsgUrl,
+					data : 'msgtime='+ (me.msgtime||''),
+					success:function(data, textStatus, jqXHR){
+						var result = jqXHR.responseText;
+						try{
+							var po = $.parseJSON(result);
+							me.addListMsgResult(po,false,true);
+							if(po.results.length>0){
+								//更新时间
+								me.msgtime = po.results[po.results.length-1].msgtime;
+								window.external.SetTabColor();
+							}
+						}finally{
+							me.loading = false;
+						}
+					},
+					error:function(data, t, tt){
+						me.loading = false;
+						//alert(data.responseText||tt);
+					}
+					
+				})
+				
+			},
+			addListMsgResult:function(po,top,scrollBottom){
+				me = this;
+				for(var i = 0;po.results.length>i;i++){
+					var userMsg = po.results[i];
+					me.addUserMsg(userMsg,top,scrollBottom);
+				}
+				
+			},
+			//用户有了新消息
+			addUserMsg : function(userMsg,top,scrollBottom){
+				var me = this;
+				
+				//dir为true表示这个消息是由微信用户发送给客服的消息，反之为客服发送给微信用户的消息
+				var dir = userMsg.fromuseropenid?true:false;
+				var targetId = dir?userMsg.fromuseropenid : userMsg.touseropenid;
+				var targetCaption = dir?userMsg.fromusercaption:(userMsg.tousercaption||'客服');
+				var headimg = userMsg.headimgurl;
+				var create_time = userMsg.msg_create_time;
+				if(create_time == null){
+					create_time = "";
+				}
+					
+				var userTitle = $('#'+targetId+'_ut');
+				if(!userTitle.length){
+					//该用户还未创建会话，创建
+					userTitle = $('<ion-item class="item item-avatar"> <img src="'+headimg+'">'+targetCaption+'</ion-item>');
+					userTitle.appendTo(me.user_list);
+					userTitle.attr('id',targetId+'_ut');
+					userTitle.data('openid',targetId);
+				}
+				if(dir){
+					userTitle.addClass('has_msg');
+					userTitle.find('a').html(targetCaption);
+				}
+				//获取对话窗口
+				var msgBox = me.getUserMsgBox(targetId);
+				var msg  = null;
+				if(targetCaption == '客服'){
+					msg = $('<li class="msg"><ion-item class="item border_no item-avatar-right" > <img src="imgs/kefu_face.jpg">'+targetCaption+'&nbsp;'+create_time +' <p class="width100 text-wrap" style="word-wrap: break-word;"></p></ion-item></li>');
+				}else{
+					msg = $('<li class="msg"><ion-item class="item item-avatar border_no"> <img src="'+headimg+'">'+targetCaption+'&nbsp;'+create_time +'<p class="width100" style="word-wrap: break-word;"></p></ion-item></li>');
+					
+				}
+				
+				if(top){
+					//加到顶部
+					msgBox.find('.msgs').prepend(msg);
+				}else{ 
+					//加到底部
+					msg.appendTo(msgBox.find('.msgs'));
+				}
+				
+				//记录这个消息的创建时间，用于查找历史聊天记录（上一页）
+				msg.data('msg_time',userMsg.msgtime);
+				
+				if(userMsg.msgtype=='text'){
+					msg.find('p').html(userMsg.content);
+				}else if(userMsg.msgtype=='image'){
+					msg.find('p').html('<img src="'+userMsg.content+'" onclick="showPic('+userMsg.content+')" />');
+				}else if(userMsg.msgtype=='video'){
+					var video = $('#video_tpl').clone(true);
+					msg.find('p').append(video);
+					video.find('source').attr('src',userMsg.content);
+				}else if(userMsg.msgtype=='voice'){
+					var voice = $('#voice_tpl').clone(true);
+					msg.find('p').append(voice);
+					voice.find('audio').attr('src',userMsg.content);
+				}
+				
+				
+				if(!dir){
+					msg.addClass('msg_right');
+				}
+				if(scrollBottom){
+					//聊天窗口滚到最底。
+					var msgs = msgBox.find('.msgs');
+					msgs.scrollTop(msgs[0].scrollHeight );
+				}
+				
+				if(!me.userMsgBox){
+					me.userMsgBox = msgBox;
+					me.userMsgBox.show();
+				}
+				return msg;
+			},
+			stop:function(){
+				if(this.task){
+					clearInterval(this.task);
+				}
+			}
+			
+		};
+		
+		f_msg.init();
+		//开始向服务器轮询消息
+		f_msg.start();
+		
+	});
+
+
+</script>
+
+</body>
+</html>

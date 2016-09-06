@@ -1,0 +1,22 @@
+#jdbcUrl=jdbc:mysql://127.0.0.1:3306/xchtwx?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+#user=purer1r1
+#password=admin
+
+jdbcUrl=jdbc:mysql://localhost:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user=root
+jdbcDriver=com.mysql.jdbc.Driver
+password=123456
+#password=1234
+
+#jdbcUrl=jdbc:mysql://182.61.29.200:3306/xchtwx?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+#user=root
+#password=root
+devMode=false
+
+# 微信服务器回调所用的 url 与 token
+url=http://py.xchtkj.cttttom/wxapi/weixin
+token=xchtkjjyy
+
+# 公众号发布用
+appId=wx2d100c552fcf450b55
+appSecret=a8a792ea56182559a0ef123b57047a1c5d

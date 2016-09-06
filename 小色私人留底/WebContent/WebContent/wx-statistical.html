@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>微信统计</title>
+		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" />
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="alert alert-success" role="alert">当前在线客服：<span id="onlineNum">0</span></div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-body text-center">
+							<canvas id="pieChatId"></canvas>
+							<canvas id="barChatId"></canvas>
+						</div>
+						<div class="panel-footer">聊天数</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-body text-center">
+							<canvas id="pieCustomerId"></canvas>
+							<canvas id="barCustomerId"></canvas>
+						</div>
+						<div class="panel-footer">访问的客户数</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			/*当前在线客服数*/
+			$.ajax({
+				url : "${pageContext.request.contextPath}/weixin/serviceNumOnLine",
+				dataType : "json",
+				success : function(data){
+					$("#onlineNum").html(data);
+				},
+				error : function(){
+					alert("服务器请求错误");
+				}
+			});
+			/*聊天数图*/
+			var pieChat = $("#pieChatId").get(0).getContext("2d");
+			var barChat = $("#barChatId").get(0).getContext("2d");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/weixin/msgCount",
+				dataType : "json",
+				success : function(data){
+					new Chart(pieChat).Pie(data.pie);
+					new Chart(barChat).Bar(data.bar);
+				},
+				error : function(){
+					alert("服务器请求错误");
+				}
+			});
+			/*访问的客户数图*/
+			var barCustomer = $("#barCustomerId").get(0).getContext("2d");
+			var pieCustomer = $("#pieCustomerId").get(0).getContext("2d");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/weixin/customerCount",
+				dataType : "json",
+				success : function(data){
+					new Chart(barCustomer).Bar(data.bar);
+					new Chart(pieCustomer).Pie(data.pie);
+				},
+				error : function(){
+					alert("服务器请求错误");
+				}
+			});
+		</script>
+	</body>
+</html>
